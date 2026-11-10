@@ -2,16 +2,25 @@ name: Build IPA
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - codex/build-ipa
+
+permissions:
+  contents: read
 
 jobs:
   build:
     runs-on: macos-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Build Erosion IPA
         run: |
+          xcodebuild -version
+          xcrun --sdk iphoneos --show-sdk-version
           chmod +x ipabuild.sh
           ./ipabuild.sh
 
